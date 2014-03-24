@@ -5,6 +5,8 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using MvcApplication1.Models;
+using MvcApplication1.Util;
 
 namespace MvcApplication1.Controllers
 {
@@ -13,24 +15,49 @@ namespace MvcApplication1.Controllers
         public ActionResult Index()
         {
             InsertAutoTransfers();
+            var viewModel = new HomeViewModel
+            {
+                GroceryMoney = AvailableGroceryMoney(),
+                EatingOutMoney = AvailableEatingOutMoney(),
+                SpendingMoneys = AvailableSpendingMoney()
+            };
             ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
 
-            return View();
+            return View(viewModel);
+        }
+
+        private string AvailableGroceryMoney()
+        {
+            return AvailableMoneyForCategory("Groceries");
+        }
+
+        private string AvailableEatingOutMoney()
+        {
+            return AvailableMoneyForCategory("Eating Out");
+        }
+
+        private string AvailableSpendingMoney()
+        {
+            return AvailableMoneyForCategory("Spending Moneys");
+        }
+
+        private string AvailableMoneyForCategory(string category)
+        {
+            var connection = SqlHelper.GetConnection();
+            connection.Open();
+            var reader = SqlHelper.GetReader(connection,"AvailableMoneyByCategory '" + category + "'");
+            reader.Read();
+            var amount = reader[0];
+            reader.Close();
+            connection.Close();
+            return amount.ToString();
         }
 
         private void InsertAutoTransfers()
         {
-            SqlConnection sqlConnection1 = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["SQLSERVER_CONNECTION_STRING"].ConnectionString);
-            SqlCommand cmd = new SqlCommand();
-            SqlDataReader reader;
-
-            cmd.CommandText = "select max(transactiondate) from transactions where memo = 'autotransfer'";
-            cmd.CommandType = CommandType.Text;
-            cmd.Connection = sqlConnection1;
-
-            sqlConnection1.Open();
-
-            reader = cmd.ExecuteReader();
+            var connection = SqlHelper.GetConnection();
+            connection.Open();
+            var reader = SqlHelper.GetReader(connection,"select max(transactiondate) from transactions where memo = 'autotransfer'");
             // Data is accessible through the DataReader object here.
             var lastDate = DateTime.Now;
             while (reader.Read())
@@ -38,15 +65,11 @@ namespace MvcApplication1.Controllers
                 lastDate = ReadSingleRow(reader);
             }
             reader.Close();
+            connection.Close();
             for (var i = 1; i <= (DateTime.Now - lastDate).TotalDays;i++)
             {
-                cmd.CommandText = String.Format("[sp_DailyTransfer] '{0}'", lastDate.AddDays(i));
-                cmd.CommandType = CommandType.Text;
-                cmd.Connection = sqlConnection1;
-
-                cmd.ExecuteNonQuery();
+                SqlHelper.ExecuteNonReader(String.Format("[sp_DailyTransfer] '{0}'", lastDate.AddDays(i)));
             }
-            sqlConnection1.Close();
         }
 
         private DateTime ReadSingleRow(IDataRecord reader)

@@ -1,14 +1,26 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@model MvcApplication1.Models.HomeViewModel
+@{
+    ViewBag.Title = "How much can we spend";
 }
 
-<h2>@ViewBag.Message</h2>
-<p>
-    To learn more about ASP.NET MVC visit <a href="http://asp.net/mvc" title="ASP.NET MVC Website">http://asp.net/mvc</a>.
-</p>
+<h2>Available Moneys</h2>
 
+
+<p>Grocery Moneys: $@Model.GroceryMoney</p>
 <ul data-role="listview" data-inset="true">
-    <li data-role="list-divider">Navigation</li>
-    <li>@Html.ActionLink("About", "About", "Home")</li>
-    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+    <li>
+        <progress max="87"><span>@Model.GroceryMoney</span></progress>
+    </li>
+</ul>
+<p>Eating Out Moneys: $@Model.EatingOutMoney</p>
+<ul data-role="listview" data-inset="true">
+    <li>
+        <progress max="80"><span>@Model.EatingOutMoney</span></progress>
+    </li>
+</ul>
+<p>Spending Moneys: $@Model.SpendingMoneys</p>
+<ul data-role="listview" data-inset="true">
+    <li>
+        <progress max="161"><span>@Model.SpendingMoneys</span></progress>
+    </li>
 </ul>
