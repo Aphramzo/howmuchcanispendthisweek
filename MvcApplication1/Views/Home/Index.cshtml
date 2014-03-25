@@ -9,18 +9,18 @@
 <p>Grocery Moneys: $@Model.GroceryMoney</p>
 <ul data-role="listview" data-inset="true">
     <li>
-        <progress max="87"><span>@Model.GroceryMoney</span></progress>
+        <progress max="87" style="width:@Model.GroceryPercent%"><span>@Model.GroceryMoney</span></progress>
     </li>
 </ul>
 <p>Eating Out Moneys: $@Model.EatingOutMoney</p>
 <ul data-role="listview" data-inset="true">
     <li>
-        <progress max="80"><span>@Model.EatingOutMoney</span></progress>
+        <progress max="80" style="width:@Model.EatingOutPercent%"><span>@Model.EatingOutMoney</span></progress>
     </li>
 </ul>
 <p>Spending Moneys: $@Model.SpendingMoneys</p>
 <ul data-role="listview" data-inset="true">
     <li>
-        <progress max="161"><span>@Model.SpendingMoneys</span></progress>
+        <progress max="161" style="width:@Model.SpendingPercent%"><span>@Model.SpendingMoneys</span></progress>
     </li>
 </ul>
