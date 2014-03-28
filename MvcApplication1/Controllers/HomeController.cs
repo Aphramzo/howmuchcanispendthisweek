@@ -26,6 +26,14 @@ namespace MvcApplication1.Controllers
             return View(viewModel);
         }
 
+        [HttpPost]
+        public ActionResult AddTransaction(string amount, int category, string merchant)
+        {
+            var goodAmount = Convert.ToDecimal(amount);
+            SqlHelper.ExecuteNonReader(String.Format("[sp_AddTransaction] {0}, {1}, '{2}','{3}'", category, goodAmount, merchant, "added Through web before interface allowed memos"));
+            return RedirectToAction("index");
+        }
+
         private string AvailableGroceryMoney()
         {
             return AvailableMoneyForCategory("Groceries");

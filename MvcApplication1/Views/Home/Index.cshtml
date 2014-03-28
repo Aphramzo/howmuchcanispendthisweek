@@ -6,21 +6,77 @@
 <h2>Available Moneys</h2>
 
 
-<p>Grocery Moneys: $@Model.GroceryMoney</p>
+<p>Grocery Moneys: $@Model.GroceryMoney <a href="#addGroceryTransaction" data-role="button" data-position-to="window" data-inline="true" data-rel="popup">+</a></p>
 <ul data-role="listview" data-inset="true">
     <li>
         <progress max="87" style="width:@Model.GroceryPercent%"><span>@Model.GroceryMoney</span></progress>
     </li>
 </ul>
-<p>Eating Out Moneys: $@Model.EatingOutMoney</p>
+<p>Eating Out Moneys: $@Model.EatingOutMoney <a href="#addEatingOutTransaction" data-role="button" data-position-to="window" data-inline="true" data-rel="popup">+</a></p>
 <ul data-role="listview" data-inset="true">
     <li>
         <progress max="80" style="width:@Model.EatingOutPercent%"><span>@Model.EatingOutMoney</span></progress>
     </li>
 </ul>
-<p>Spending Moneys: $@Model.SpendingMoneys</p>
+<p>Spending Moneys: $@Model.SpendingMoneys <a href="#addSpendingTransaction" data-role="button" data-position-to="window" data-inline="true" data-rel="popup">+</a></p>
 <ul data-role="listview" data-inset="true">
     <li>
         <progress max="161" style="width:@Model.SpendingPercent%"><span>@Model.SpendingMoneys</span></progress>
     </li>
 </ul>
+
+
+<div data-role="popup" id="addGroceryTransaction">
+    <form method="post" action="/home/addTransaction">
+        <input type="hidden" name="category" value="2" />
+        <ul data-role="listview">
+            <li>
+                <label for="basic">Where At:</label>
+                <input type="text" name="merchant" id="basic" data-mini="true" placeholder="Where is you" />
+            </li>
+            <li>
+                <label for="basic">How Much:</label>
+                <input type="text" name="amount" id="basic" data-mini="true" placeholder="YOU SPENT WHAT?" />
+            </li>
+            <li>
+                <input type="submit" value="Add that shit"/>
+            </li>
+        </ul>
+    </form>
+</div>
+<div data-role="popup" id="addEatingOutTransaction">
+    <form method="post" action="/home/addTransaction">
+        <input type="hidden" name="category" value="1" />
+        <ul data-role="listview">
+            <li>
+                <label for="basic">Where At:</label>
+                <input type="text" name="merchant" id="basic" data-mini="true" placeholder="Where is you" />
+            </li>
+            <li>
+                <label for="basic">How Much:</label>
+                <input type="text" name="amount" id="basic" data-mini="true" placeholder="YOU SPENT WHAT?" />
+            </li>
+            <li>
+                <input type="submit" value="Add that shit" />
+            </li>
+        </ul>
+    </form>
+</div>
+<div data-role="popup" id="addSpendingTransaction">
+    <form method="post" action="/home/addTransaction">
+        <input type="hidden" name="category" value="3" />
+        <ul data-role="listview">
+            <li>
+                <label for="basic">Where At:</label>
+                <input type="text" name="merchant" id="basic" data-mini="true" placeholder="Where is you" />
+            </li>
+            <li>
+                <label for="basic">How Much:</label>
+                <input type="text" name="amount" id="basic" data-mini="true" placeholder="YOU SPENT WHAT?" />
+            </li>
+            <li>
+                <input type="submit" value="Add that shit" />
+            </li>
+        </ul>
+    </form>
+</div>
