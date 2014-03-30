@@ -6,19 +6,19 @@
 <h2>Available Moneys</h2>
 
 
-<p>Grocery Moneys: $@Model.GroceryMoney <a href="#addGroceryTransaction" data-role="button" data-position-to="window" data-inline="true" data-rel="popup">+</a></p>
+<p>Grocery Moneys: @Model.GroceryMoney.ToString("C2") <a href="#addGroceryTransaction" data-role="button" data-position-to="window" data-inline="true" data-rel="popup">+</a></p>
 <ul data-role="listview" data-inset="true">
     <li>
         <progress max="87" style="width:@Model.GroceryPercent%"><span>@Model.GroceryMoney</span></progress>
     </li>
 </ul>
-<p>Eating Out Moneys: $@Model.EatingOutMoney <a href="#addEatingOutTransaction" data-role="button" data-position-to="window" data-inline="true" data-rel="popup">+</a></p>
+<p>Eating Out Moneys: @Model.EatingOutMoney.ToString("C2") <a href="#addEatingOutTransaction" data-role="button" data-position-to="window" data-inline="true" data-rel="popup">+</a></p>
 <ul data-role="listview" data-inset="true">
     <li>
         <progress max="80" style="width:@Model.EatingOutPercent%"><span>@Model.EatingOutMoney</span></progress>
     </li>
 </ul>
-<p>Spending Moneys: $@Model.SpendingMoneys <a href="#addSpendingTransaction" data-role="button" data-position-to="window" data-inline="true" data-rel="popup">+</a></p>
+<p>Spending Moneys: @Model.SpendingMoneys.ToString("C2") <a href="#addSpendingTransaction" data-role="button" data-position-to="window" data-inline="true" data-rel="popup">+</a></p>
 <ul data-role="listview" data-inset="true">
     <li>
         <progress max="161" style="width:@Model.SpendingPercent%"><span>@Model.SpendingMoneys</span></progress>

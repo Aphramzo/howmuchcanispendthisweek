@@ -37,31 +37,31 @@ namespace MvcApplication1.Controllers
             return RedirectToAction("index");
         }
 
-        private string AvailableGroceryMoney()
+        private decimal AvailableGroceryMoney()
         {
             return AvailableMoneyForCategory("Groceries");
         }
 
-        private string AvailableEatingOutMoney()
+        private decimal AvailableEatingOutMoney()
         {
             return AvailableMoneyForCategory("Eating Out");
         }
 
-        private string AvailableSpendingMoney()
+        private decimal AvailableSpendingMoney()
         {
             return AvailableMoneyForCategory("Spending Moneys");
         }
 
-        private string AvailableMoneyForCategory(string category)
+        private decimal AvailableMoneyForCategory(string category)
         {
             var connection = SqlHelper.GetConnection();
             connection.Open();
             var reader = SqlHelper.GetReader(connection,"AvailableMoneyByCategory '" + category + "'");
             reader.Read();
-            var amount = reader[0];
+            var amount = Convert.ToDecimal(reader[0]);
             reader.Close();
             connection.Close();
-            return amount.ToString();
+            return amount;
         }
 
         private void InsertAutoTransfers()
