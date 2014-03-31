@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Web.Security;
 
-namespace MvcApplication1.Models
+namespace HowMuchCanISpend.Models
 {
 
     public class ChangePasswordModel

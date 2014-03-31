@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace MvcApplication1.Models
+namespace HowMuchCanISpend.Models
 {
     public class CategoryDisplay
     {
@@ -15,7 +15,8 @@ namespace MvcApplication1.Models
         {
             get
             {
-                 return Convert.ToInt16(Moneys / Category.WeeklyAmount *100);
+                var percent = Convert.ToInt16(Moneys/Category.WeeklyAmount*100);
+                return percent < 0 ? 0 : percent;
             }
         }
     }

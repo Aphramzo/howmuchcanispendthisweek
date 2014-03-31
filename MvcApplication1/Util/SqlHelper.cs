@@ -1,7 +1,7 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
 
-namespace MvcApplication1.Util
+namespace HowMuchCanISpend.Util
 {
     public static class SqlHelper
     {

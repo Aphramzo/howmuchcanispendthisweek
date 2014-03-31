@@ -1,7 +1,6 @@
-﻿using System.Web;
-using System.Web.Optimization;
+﻿using System.Web.Optimization;
 
-namespace MvcApplication1
+namespace HowMuchCanISpend
 {
     public class BundleConfig
     {

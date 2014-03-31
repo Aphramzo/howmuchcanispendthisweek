@@ -5,23 +5,23 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using MvcApplication1.Models;
-using MvcApplication1.Util;
-
-namespace MvcApplication1.Controllers
+using HowMuchCanISpend.Models;
+using HowMuchCanISpend.Util;
+using HowMuchCanISpend.Helpers;
+namespace HowMuchCanISpend.Controllers
 {
     public class HomeController : Controller
     {
         public ActionResult Index()
         {
             InsertAutoTransfers();
-            var categories = GetActiveCategories();
+            var categories = CategoryHelper.GetActiveCategories();
             var viewModel = new HomeViewModel();
             viewModel.CategoryDisplays = new List<CategoryDisplay>();
             foreach(var category in categories){
                 viewModel.CategoryDisplays.Add(new CategoryDisplay{
                     Category = category,
-                    Moneys = AvailableMoneyForCategory(category.CategoryName)
+                    Moneys = CategoryHelper.AvailableMoneyForCategory(category.CategoryName)
                 });
             }
             ViewBag.Message = "Derp Derp Money";
@@ -37,37 +37,7 @@ namespace MvcApplication1.Controllers
             return RedirectToAction("index");
         }
 
-        private IList<Category> GetActiveCategories()
-        {
-            var connection = SqlHelper.GetConnection();
-            connection.Open();
-            var reader = SqlHelper.GetReader(connection, "sp_GetCategoriesForDisplay");
-            // Data is accessible through the DataReader object here.
-            var categories = new List<Category>();
-            while (reader.Read())
-            {
-                categories.Add(new Category{
-                    CategoryName = reader[1].ToString(),
-                    Id = Convert.ToInt64(reader[0]),
-                    WeeklyAmount = Convert.ToDecimal(reader[2])
-                });
-            }
-            reader.Close();
-            connection.Close();
-            return categories;
-        }
-
-        private decimal AvailableMoneyForCategory(string category)
-        {
-            var connection = SqlHelper.GetConnection();
-            connection.Open();
-            var reader = SqlHelper.GetReader(connection,"sp_AvailableMoneyByCategory '" + category + "'");
-            reader.Read();
-            var amount = Convert.ToDecimal(reader[0]);
-            reader.Close();
-            connection.Close();
-            return amount;
-        }
+        
 
         private void InsertAutoTransfers()
         {
@@ -78,7 +48,7 @@ namespace MvcApplication1.Controllers
             var lastDate = DateTime.Now;
             while (reader.Read())
             {
-                lastDate = ReadSingleRow(reader);
+                lastDate = (DateTime)reader[0];
             }
             reader.Close();
             connection.Close();
@@ -86,25 +56,6 @@ namespace MvcApplication1.Controllers
             {
                 SqlHelper.ExecuteNonReader(String.Format("[sp_DailyTransfer] '{0}'", lastDate.AddDays(i)));
             }
-        }
-
-        private DateTime ReadSingleRow(IDataRecord reader)
-        {
-            return (DateTime) reader[0];
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your app description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
         }
     }
 }

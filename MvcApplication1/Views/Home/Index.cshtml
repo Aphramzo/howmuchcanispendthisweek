@@ -1,4 +1,4 @@
-﻿@model MvcApplication1.Models.HomeViewModel
+﻿@model HowMuchCanISpend.Models.HomeViewModel
 @{
     ViewBag.Title = "How much can we spend";
 }
@@ -9,8 +9,8 @@
 {
     <p>@categoryDisplay.Category.CategoryName Moneys: @categoryDisplay.Moneys.ToString("C2") <a href="#@String.Format("add{0}Transaction", categoryDisplay.Category.CategoryName.Replace(" ",""))" data-role="button" data-position-to="window" data-inline="true" data-rel="popup">+</a></p>
     <ul data-role="listview" data-inset="true">
-        <li>
-            <progress max="@categoryDisplay.Category.WeeklyAmount" style="width:@categoryDisplay.Percent%"></progress>
+        <li class="progressbar">
+            <div style="width:@categoryDisplay.Percent%">&nbsp;</div>
         </li>
     </ul>
     <div data-role="popup" id="@String.Format("add{0}Transaction", categoryDisplay.Category.CategoryName.Replace(" ",""))">
