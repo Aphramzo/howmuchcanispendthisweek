@@ -6,17 +6,20 @@
         <meta name="viewport" content="width=device-width" />
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         @Styles.Render("~/Content/mobileCss", "~/Content/css")
+        <link rel="stylesheet" href="/content/slicknav.css" />
         @Scripts.Render("~/bundles/modernizr")
     </head>
     <body>
         <div data-role="page" data-theme="b">
             <div data-role="header">
-                @if (IsSectionDefined("Header")) {
-                    @RenderSection("Header")
-                } else {
-                    <h1>@ViewBag.Title</h1>
-                }
+
+                <div id="menuContainer"></div>
             </div>
+            <ul id="menuMine" style="display:none;">
+                <li><a href="/">Home</a></li>
+                <li><a href="/category">Categories</a></li>
+                <li><a href="/transaction">Transactions</a></li>
+            </ul>
             <div data-role="content">
                 @RenderBody()
             </div>
@@ -30,5 +33,14 @@
         </script>
         @Scripts.Render("~/bundles/jquerymobile")
         @RenderSection("scripts", required: false)
+        <script src="/Scripts/jquery.slicknav.min.js"></script>
+        <script>
+            $(function () {
+                $('#menuMine').slicknav({
+                    prependTo: '#menuContainer',
+                    label: ''
+                });
+            });
+        </script>
     </body>
 </html>

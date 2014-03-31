@@ -1,6 +1,6 @@
 ﻿@model HowMuchCanISpend.Models.HomeViewModel
 @{
-    ViewBag.Title = "How much can we spend";
+    ViewBag.Title = "Weekly Moneys";
 }
 
 <h2>Available Moneys</h2>
@@ -30,11 +30,9 @@
             <input type="hidden" name="category" value="@categoryDisplay.Category.Id" />
             <ul data-role="listview">
                 <li>
-                    <label for="basic">Where At:</label>
+                    <label for="merchant">Where At:</label>
                     <input type="text" name="merchant" id="basic" data-mini="true" placeholder="Where is you" />
-                </li>
-                <li>
-                    <label for="basic">How Much:</label>
+                    <label for="amount">How Much:</label>
                     <input type="text" name="amount" id="basic" data-mini="true" placeholder="YOU SPENT WHAT?" />
                 </li>
                 <li>
