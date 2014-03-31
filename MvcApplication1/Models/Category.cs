@@ -8,5 +8,7 @@ namespace MvcApplication1.Models
     public class Category : BaseModel
     {
         public string CategoryName { get; set; }
+
+        public decimal WeeklyAmount { get; set; }
     }
 }

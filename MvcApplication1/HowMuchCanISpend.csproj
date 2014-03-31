@@ -156,6 +156,7 @@
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\CategoryDisplay.cs" />
     <Compile Include="Models\HomeViewModel.cs" />
     <Compile Include="Models\Transaction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

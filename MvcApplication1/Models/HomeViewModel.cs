@@ -25,5 +25,8 @@ namespace MvcApplication1.Models
         {
             get { return Convert.ToInt16(SpendingMoneys / 161*100); }
         }
+
+        //What the future will be instead of hardcoded named properties of each
+        public IList<CategoryDisplay> CategoryDisplays { get; set; }
     }
 }

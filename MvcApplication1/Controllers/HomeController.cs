@@ -15,13 +15,16 @@ namespace MvcApplication1.Controllers
         public ActionResult Index()
         {
             InsertAutoTransfers();
-            var viewModel = new HomeViewModel
-            {
-                GroceryMoney = AvailableGroceryMoney(),
-                EatingOutMoney = AvailableEatingOutMoney(),
-                SpendingMoneys = AvailableSpendingMoney()
-            };
-            ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
+            var categories = GetActiveCategories();
+            var viewModel = new HomeViewModel();
+            viewModel.CategoryDisplays = new List<CategoryDisplay>();
+            foreach(var category in categories){
+                viewModel.CategoryDisplays.Add(new CategoryDisplay{
+                    Category = category,
+                    Moneys = AvailableMoneyForCategory(category.CategoryName)
+                });
+            }
+            ViewBag.Message = "Derp Derp Money";
 
             return View(viewModel);
         }
@@ -30,33 +33,35 @@ namespace MvcApplication1.Controllers
         public ActionResult AddTransaction(string amount, int category, string merchant)
         {
             var goodAmount = Convert.ToDecimal(amount);
-            //oh dear god, what kind of human being would put a minus like this in a string for this.
-            //a drunk lazy kind. Sorry future Tyler. I want to kick my ass only slightly less than I want to 
-            //go get another beer. You get it.
-            SqlHelper.ExecuteNonReader(String.Format("[sp_AddTransaction] {0}, -{1}, '{2}','{3}'", category, goodAmount, merchant, "added Through web before interface allowed memos"));
+            SqlHelper.ExecuteNonReader(String.Format("[sp_AddTransaction] {0}, {1}, '{2}','{3}'", category, goodAmount, merchant, "added Through web before interface allowed memos"));
             return RedirectToAction("index");
         }
 
-        private decimal AvailableGroceryMoney()
+        private IList<Category> GetActiveCategories()
         {
-            return AvailableMoneyForCategory("Groceries");
-        }
-
-        private decimal AvailableEatingOutMoney()
-        {
-            return AvailableMoneyForCategory("Eating Out");
-        }
-
-        private decimal AvailableSpendingMoney()
-        {
-            return AvailableMoneyForCategory("Spending Moneys");
+            var connection = SqlHelper.GetConnection();
+            connection.Open();
+            var reader = SqlHelper.GetReader(connection, "sp_GetCategoriesForDisplay");
+            // Data is accessible through the DataReader object here.
+            var categories = new List<Category>();
+            while (reader.Read())
+            {
+                categories.Add(new Category{
+                    CategoryName = reader[1].ToString(),
+                    Id = Convert.ToInt64(reader[0]),
+                    WeeklyAmount = Convert.ToDecimal(reader[2])
+                });
+            }
+            reader.Close();
+            connection.Close();
+            return categories;
         }
 
         private decimal AvailableMoneyForCategory(string category)
         {
             var connection = SqlHelper.GetConnection();
             connection.Open();
-            var reader = SqlHelper.GetReader(connection,"AvailableMoneyByCategory '" + category + "'");
+            var reader = SqlHelper.GetReader(connection,"sp_AvailableMoneyByCategory '" + category + "'");
             reader.Read();
             var amount = Convert.ToDecimal(reader[0]);
             reader.Close();
