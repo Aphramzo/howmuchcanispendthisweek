@@ -15,8 +15,7 @@ namespace HowMuchCanISpend.Models
         {
             get
             {
-                var percent = Convert.ToInt16(Moneys/Category.WeeklyAmount*100);
-                return percent < 0 ? 0 : percent;
+                return  Math.Abs(Convert.ToInt16(Moneys/Category.WeeklyAmount*100));
             }
         }
     }
