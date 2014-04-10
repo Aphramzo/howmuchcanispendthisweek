@@ -1,0 +1,29 @@
+﻿@model HowMuchCanISpend.Models.TransactionViewModel
+@{
+    ViewBag.Title = "Transactions";
+}
+
+<h2>Recent Transactions</h2>
+
+<div data-role="collapsible-set">
+    @foreach (var category in Model.CategoryTransactionDisplays)
+    {
+        <div data-role="collapsible" data-collapsed="true">
+            <h3>@category.Category.CategoryName</h3>
+            <p>
+                <ul data-role="listview" data-inset="false">
+                    @foreach (var transaction in category.Transactions)
+                    {
+                        <li>
+                            <span style="width:20%;display:inline-block">
+                                @transaction.TransactionDate.ToShortDateString()
+                            </span>
+                            @transaction.Amount.ToString("C2") at @transaction.Location
+                        </li>
+                    }
+                </ul>
+
+            </p>
+        </div>
+    }
+</div>
