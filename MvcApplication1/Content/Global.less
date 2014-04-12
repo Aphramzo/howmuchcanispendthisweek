@@ -1,11 +1,13 @@
-﻿#menuContainer {
+﻿@HappyColor: #61c419;
+@AngryColor: #f6290c;
+
+#menuContainer {
     div.slicknav_menu {
         ul {
             text-align: right;
         }
     }
 }
-
 
 div.category-header {
     display: table-row;
@@ -27,10 +29,10 @@ div.category-header {
             border-radius: .3em;
 
             &.positive{
-                .center-line-gradient(#b4e391, #61c419);
+                .center-line-gradient(lighten(@HappyColor, 25%), @HappyColor);
             }
             &.negative{
-                .center-line-gradient(#f16f5c, #f6290c);
+                .center-line-gradient(lighten(@AngryColor, 25%), @AngryColor);
             }
         }
     }
@@ -38,7 +40,7 @@ div.category-header {
 
 .center-line-gradient (@edgeColor: #eee, @centerColor: white) {
     background: @edgeColor; /* Old browsers */
-    background: -moz-linear-gradient(top, @edgeColor  0%,  50%, @edgeColor 100%); /* FF3.6+ */
+    background: -moz-linear-gradient(top, @edgeColor  0%,  @centerColor 50%, @edgeColor 100%); /* FF3.6+ */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,@edgeColor), color-stop(50%,@centerColor), color-stop(100%,@edgeColor)); /* Chrome,Safari4+ */
     background: -webkit-linear-gradient(top,  @edgeColor 0%,@centerColor 50%,@edgeColor 100%); /* Chrome10+,Safari5.1+ */
     background: -o-linear-gradient(top,  @edgeColor 0%,@centerColor 50%,@edgeColor 100%); /* Opera 11.10+ */
