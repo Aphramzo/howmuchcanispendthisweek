@@ -25,5 +25,11 @@ namespace HowMuchCanISpend.Controllers
 	        }
             return View(viewModel);
         }
+
+	    [HttpPost]
+	    public void Delete(long id)
+	    {
+		    TransactionHelper.Delete(id);
+	    }
     }
 }

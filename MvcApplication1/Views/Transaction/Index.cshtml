@@ -23,6 +23,7 @@
                             @transaction.Amount.ToString("C2")
                             <!--sorry future everyone, please clean this shit up--><br />
                             <span class="location">@transaction.Location</span>
+                            <input type="hidden" value="@transaction.Id"/>
                         </li>
                     }
                 </ul>

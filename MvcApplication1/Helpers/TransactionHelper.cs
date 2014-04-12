@@ -26,12 +26,21 @@ namespace HowMuchCanISpend.Helpers
 					TransactionDate = Convert.ToDateTime(reader["TransactionDate"]),
 					Amount = Convert.ToDecimal(reader["Amount"]),
 					Location = Convert.ToString(reader["Merchant"]),
-					Memo = Convert.ToString(reader["Memo"])
+					Memo = Convert.ToString(reader["Memo"]),
+					Id = Convert.ToInt64(reader["Id"])
 				});
 			}
 			reader.Close();
 			connection.Close();
 			return transactions;
+		}
+
+		public static void Delete(long id)
+		{
+			SqlHelper.ExecuteNonReader("sp_DeleteTransaction", new List<SqlParameter>
+			{
+				new SqlParameter("@transactionId", id)
+			});
 		}
 	}
 }

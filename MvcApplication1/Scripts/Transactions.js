@@ -2,7 +2,7 @@
 (function() {
   var confirmDelete;
 
-  $(document).on('click', '.transaction-list li', function(e) {
+  $(document).on('swiperight', '.transaction-list li', function(e) {
     var transaction;
     transaction = $(this);
     return confirmDelete(transaction);
@@ -16,6 +16,12 @@
     transaction.find('.location').clone().insertAfter('#question');
     $confirm.popup('open');
     $confirm.find('#yes').on('click', function() {
+      $.ajax('/transaction/delete', {
+        type: 'POST',
+        data: {
+          id: transaction.find('input').val()
+        }
+      });
       transaction.removeClass('ui-btn-down-d');
       transaction.addClass('right');
       transaction.on('webkitTransitionEnd transitionend otransitionend', function() {
