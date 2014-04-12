@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using HowMuchCanISpend.Models;
@@ -14,7 +15,10 @@ namespace HowMuchCanISpend.Helpers
 			var transactions = new List<Transaction>();
 			var connection = SqlHelper.GetConnection();
 			connection.Open();
-			var reader = SqlHelper.GetReader(connection, "sp_TransactionsGetByCategoryLastTen " + category.Id);
+			var reader = SqlHelper.GetReader(connection, "sp_TransactionsGetByCategoryLastTen", new List<SqlParameter>
+			{
+				new SqlParameter("@categoryId",category.Id)
+			});
 			while (reader.Read())
 			{
 				transactions.Add(new Transaction

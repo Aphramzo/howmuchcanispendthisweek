@@ -18,5 +18,7 @@ namespace HowMuchCanISpend.Models
                 return  Math.Abs(Convert.ToInt16(Moneys/Category.WeeklyAmount*100));
             }
         }
+
+		public IList<Transaction> Transactions { get; set; } 
     }
 }

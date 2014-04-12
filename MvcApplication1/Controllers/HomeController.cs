@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Web.Mvc;
 using HowMuchCanISpend.Models;
 using HowMuchCanISpend.Util;
@@ -17,7 +18,8 @@ namespace HowMuchCanISpend.Controllers
             foreach(var category in categories){
                 viewModel.CategoryDisplays.Add(new CategoryDisplay{
                     Category = category,
-                    Moneys = CategoryHelper.AvailableMoneyForCategory(category.CategoryName)
+                    Moneys = CategoryHelper.AvailableMoneyForCategory(category.CategoryName),
+					Transactions = TransactionHelper.GetLatestTransactions(category)
                 });
             }
             ViewBag.Message = "Derp Derp Money";
@@ -29,7 +31,13 @@ namespace HowMuchCanISpend.Controllers
         public ActionResult AddTransaction(string amount, int category, string merchant)
         {
             var goodAmount = Convert.ToDecimal(amount);
-            SqlHelper.ExecuteNonReader(String.Format("[sp_AddTransaction] {0}, {1}, '{2}','{3}'", category, goodAmount, merchant, "added Through web before interface allowed memos"));
+	        SqlHelper.ExecuteNonReader("sp_AddTransaction", new List<SqlParameter>
+	        {
+		        new SqlParameter("@categoryId",category),
+		        new SqlParameter("@amount",goodAmount),
+		        new SqlParameter("@merchant",merchant),
+		        new SqlParameter("@memo","added Through web before interface allowed memos")
+	        });
             return RedirectToAction("index");
         }
 
@@ -39,7 +47,7 @@ namespace HowMuchCanISpend.Controllers
         {
             var connection = SqlHelper.GetConnection();
             connection.Open();
-            var reader = SqlHelper.GetReader(connection,"select max(transactiondate) from transactions where memo = 'autotransfer'");
+			var reader = SqlHelper.GetReader(connection, "sp_GetLastAutotransferDate", null);
             // Data is accessible through the DataReader object here.
             var lastDate = DateTime.Now;
             while (reader.Read())
@@ -50,7 +58,10 @@ namespace HowMuchCanISpend.Controllers
             connection.Close();
             for (var i = 1; i <= (DateTime.Now - lastDate).TotalDays;i++)
             {
-                SqlHelper.ExecuteNonReader(String.Format("[sp_DailyTransfer] '{0}'", lastDate.AddDays(i)));
+                SqlHelper.ExecuteNonReader("sp_DailyTransfer", new List<SqlParameter>
+                {
+	                new SqlParameter("@transactionDate",lastDate.AddDays(i))
+                });
             }
         }
     }

@@ -1,14 +1,19 @@
-﻿using System.Data;
+﻿using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace HowMuchCanISpend.Util
 {
     public static class SqlHelper
     {
-        public static SqlDataReader GetReader(SqlConnection connection, string sqlCommand)
+        public static SqlDataReader GetReader(SqlConnection connection, string storedProc, List<SqlParameter> sqlParameters)
         {
-            var cmd = GetCommand(connection);
-            cmd.CommandText = sqlCommand;
+	        var sqlParams = sqlParameters ?? new List<SqlParameter>();
+            var cmd = GetCommand(connection, storedProc);
+	        foreach (var parameter in sqlParams)
+	        {
+		        cmd.Parameters.Add(parameter);
+	        }
 
             var reader =  cmd.ExecuteReader();
 
@@ -23,26 +28,27 @@ namespace HowMuchCanISpend.Util
             return sqlConnection1;
         }
 
-        private static SqlCommand GetCommand(SqlConnection sqlConnection1)
+        private static SqlCommand GetCommand(SqlConnection sqlConnection1, string storedProc)
         {
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandType = CommandType.Text;
-            cmd.Connection = sqlConnection1;
+            SqlCommand cmd = new SqlCommand(storedProc, sqlConnection1);
+            cmd.CommandType = CommandType.StoredProcedure;
             return cmd;
         }
 
-        public static void ExecuteNonReader(string sqlCommand)
+        public static void ExecuteNonReader(string storedProc, List<SqlParameter> sqlParameters )
         {
-            var sqlConnection1 = GetConnection();
-            var cmd = GetCommand(sqlConnection1);
-            cmd.CommandText = sqlCommand;
-
-
-            sqlConnection1.Open();
+			var sqlParams = sqlParameters ?? new List<SqlParameter>();
+			var sqlConnection = GetConnection();
+            var cmd = GetCommand(sqlConnection, storedProc);
+			foreach (var parameter in sqlParams)
+			{
+				cmd.Parameters.Add(parameter);
+			}
+            sqlConnection.Open();
 
             cmd.ExecuteNonQuery();
 
-            sqlConnection1.Close();
+            sqlConnection.Close();
         }
     }
 }

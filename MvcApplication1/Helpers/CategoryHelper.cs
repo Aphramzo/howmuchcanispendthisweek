@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using HowMuchCanISpend.Models;
 using HowMuchCanISpend.Util;
 
@@ -11,7 +12,7 @@ namespace HowMuchCanISpend.Helpers
         {
             var connection = SqlHelper.GetConnection();
             connection.Open();
-            var reader = SqlHelper.GetReader(connection, "sp_GetCategoriesForDisplay");
+            var reader = SqlHelper.GetReader(connection, "sp_GetCategoriesForDisplay", null);
             // Data is accessible through the DataReader object here.
             var categories = new List<Category>();
             while (reader.Read())
@@ -32,7 +33,10 @@ namespace HowMuchCanISpend.Helpers
         {
             var connection = SqlHelper.GetConnection();
             connection.Open();
-            var reader = SqlHelper.GetReader(connection, "sp_AvailableMoneyByCategory '" + category + "'");
+            var reader = SqlHelper.GetReader(connection, "sp_AvailableMoneyByCategory", new List<SqlParameter>
+            {
+	            new SqlParameter("@categoryName",category)
+            });
             reader.Read();
             var amount = Convert.ToDecimal(reader[0]);
             reader.Close();
