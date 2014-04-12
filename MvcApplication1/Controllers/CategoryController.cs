@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
+using HowMuchCanISpend.Helpers;
+using HowMuchCanISpend.Models;
 
 namespace HowMuchCanISpend.Controllers
 {
     public class CategoryController : Controller
     {
-        //
-        // GET: /Category/
-
         public ActionResult Index()
         {
-            return View();
+	        var viewModel = new CategoryViewModel();
+	        viewModel.Categories = CategoryHelper.GetActiveCategories();
+
+            return View(viewModel);
         }
 
     }

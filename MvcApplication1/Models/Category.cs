@@ -10,5 +10,7 @@ namespace HowMuchCanISpend.Models
         public string CategoryName { get; set; }
 
         public decimal WeeklyAmount { get; set; }
+
+		public decimal DailyAmount { get; set; }
     }
 }

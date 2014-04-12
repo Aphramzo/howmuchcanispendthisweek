@@ -21,7 +21,8 @@ namespace HowMuchCanISpend.Helpers
                 {
                     CategoryName = reader[1].ToString(),
                     Id = Convert.ToInt64(reader[0]),
-                    WeeklyAmount = Convert.ToDecimal(reader[2])
+                    WeeklyAmount = Convert.ToDecimal(reader[2]),
+					DailyAmount = Convert.ToDecimal(reader[2])/7
                 });
             }
             reader.Close();

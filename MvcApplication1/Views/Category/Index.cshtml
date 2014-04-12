@@ -1,0 +1,22 @@
+﻿@model HowMuchCanISpend.Models.CategoryViewModel
+@{
+    ViewBag.Title = "Categories";
+}
+
+<h2>Categories</h2>
+
+<ul data-role="listview">
+    <li>
+        <h3>Totals</h3>
+        <div>Daily Allowence: @Model.DailyAllowence</div>
+        <div>Weekly Allowence: @Model.WeeklyAllowence</div>
+    </li>
+    @foreach (var category in Model.Categories)
+    {
+        <li>
+            <h4>@category.CategoryName</h4>
+            <div>Daily Allowence: @category.DailyAmount.ToString("C2")</div>
+            <div>Weekly Allowence: @category.WeeklyAmount.ToString("C2")</div>
+        </li>
+    }
+</ul>
