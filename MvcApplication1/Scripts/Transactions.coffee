@@ -1,6 +1,6 @@
 ﻿# CoffeeScript
-$(document).on 'swiperight', '.transaction-list li', (e)->
-    transaction = $ this
+$(document).on 'click', '.transaction-list li a', (e)->
+    transaction = $(this).parents 'li'
     confirmDelete transaction
         
 confirmDelete = (transaction) ->

@@ -2,9 +2,9 @@
 (function() {
   var confirmDelete;
 
-  $(document).on('swiperight', '.transaction-list li', function(e) {
+  $(document).on('click', '.transaction-list li a', function(e) {
     var transaction;
-    transaction = $(this);
+    transaction = $(this).parents('li');
     return confirmDelete(transaction);
   });
 
