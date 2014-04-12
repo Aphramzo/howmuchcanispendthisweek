@@ -54,4 +54,16 @@ div.category-header div.add-transaction-container {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='@edgeColor', endColorstr='@edgeColor', GradientType=0);
   /* IE6-9 */
 }
+li.right {
+  -webkit-transition: -webkit-transform 250ms ease;
+  -webkit-transform: translateX(100%);
+  -moz-transition: -moz-transform 250ms ease;
+  -moz-transform: translateX(100%);
+  -o-transition: -o-transform 250ms ease;
+  -o-transform: translateX(100%);
+  transition: transform 250ms ease;
+  border-top-width: 0;
+  /* We switch to border bottom on previous list item */
+  border-left-width: 1px;
+}
 /*# sourceMappingURL=Global.css.map */

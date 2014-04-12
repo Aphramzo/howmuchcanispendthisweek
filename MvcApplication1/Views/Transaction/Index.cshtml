@@ -2,16 +2,18 @@
 @{
     ViewBag.Title = "Transactions";
 }
-
+@section scripts{
+    @Scripts.Render("~/bundles/transactions")
+}
 <h2>Recent Transactions</h2>
 
-<div data-role="collapsible-set">
+<div data-role="collapsible-set" id="transactionsContainer">
     @foreach (var category in Model.CategoryTransactionDisplays)
     {
         <div data-role="collapsible" data-collapsed="true">
             <h3>@category.Category.CategoryName</h3>
             <p>
-                <ul data-role="listview" data-inset="false">
+                <ul data-role="listview" data-inset="false" class="transaction-list">
                     @foreach (var transaction in category.Transactions)
                     {
                         <li>
@@ -19,8 +21,8 @@
                                 @transaction.TransactionDate.ToShortDateString()
                             </span>
                             @transaction.Amount.ToString("C2")
-                             <!--sorry future everyone, please clean this shit up--><br />
-                            @transaction.Location
+                            <!--sorry future everyone, please clean this shit up--><br />
+                            <span class="location">@transaction.Location</span>
                         </li>
                     }
                 </ul>
@@ -28,4 +30,20 @@
             </p>
         </div>
     }
+</div>
+
+<div id="confirm" class="ui-content" data-role="popup" data-theme="none">
+    <ul data-role="listview">
+        <li>
+            <p id="question">Are you sure you want to delete</p>
+            <div class="ui-grid-a">
+                <div class="ui-block-a">
+                    <a id="yes" data-role="button" data-mini="true" data-shadow="false" data-theme="b" data-rel="back">Yes</a>
+                </div>
+                <div class="ui-block-b">
+                    <a id="cancel" data-role="button" data-mini="true" data-shadow="false" data-theme="b" data-rel="back">No</a>
+                </div>
+            </div>
+        </li>
+    </ul>
 </div>

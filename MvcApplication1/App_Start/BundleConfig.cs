@@ -21,6 +21,8 @@ namespace HowMuchCanISpend
 
             bundles.Add(new ScriptBundle("~/bundles/jquerymobile").Include("~/Scripts/jquery.mobile*"));
 
+			bundles.Add(new ScriptBundle("~/bundles/transactions").Include("~/Scripts/transactions.js"));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
 				"~/Content/site.css",
 				"~/Content/slicknav.css",
